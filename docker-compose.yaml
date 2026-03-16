@@ -20,6 +20,7 @@ services:
     depends_on:
       service-registry:
         condition: service_healthy
+      
 
   mysql:
     image: mysql:latest
