@@ -37,11 +37,22 @@ services:
       interval: 5s
       retries: 10
 
-  auth-service:
-    build: ./auth-service
-    container_name: auth-service
+  # auth-service:
+  #   build: ./auth-service
+  #   container_name: auth-service
+  #   ports:
+  #     - "8083:8083"
+  #   depends_on:
+  #     service-registry:
+  #       condition: service_healthy
+  #     mysql:
+  #       condition: service_healthy
+
+  movie-service:
+    build: ./movie-service
+    container_name: movie-service
     ports:
-      - "8083:8083"
+      - "8084:8084"
     depends_on:
       service-registry:
         condition: service_healthy
