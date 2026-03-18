@@ -6,12 +6,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 import java.util.List;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 @Entity
@@ -165,6 +166,31 @@ public class Movie {
         this.imdbRating = imdbRating;
     }
 
+    @ManyToMany
+    @JoinTable(name = "movie_people", 
+        joinColumns = @JoinColumn(name = "movie_id"), 
+        inverseJoinColumns = @JoinColumn(name = "people_id"))
+    private List<People> peoples;
+
+    public List<People> getPeoples() {
+        return this.peoples;
+    }
+
+    public void setPeoples(List<People> peoples) {
+        this.peoples = peoples;
+    }
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EpisodeServer> episodeServers;
+
+    public List<EpisodeServer> getEpisodeServers() {
+        return this.episodeServers;
+    }
+
+    public void setEpisodeServers(List<EpisodeServer> episodeServers) {
+        this.episodeServers = episodeServers;
+    }
+
     public Movie(String name, String slug, String originalName, Integer releaseYear, String time) {
         this.name = name;
         this.slug = slug;
@@ -173,4 +199,32 @@ public class Movie {
         this.time = time;
     }
 
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
+
+    public List<Image> getImages() {
+        return this.images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    @ManyToMany
+    @JoinTable(
+    name = "movie_keyword",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    inverseJoinColumns = @JoinColumn(name = "keyword_id")
+    )
+    private List<Keyword> keywords;
+
+    public List<Keyword> getKeywords() {
+        return this.keywords;
+    }
+
+    public void setKeywords(List<Keyword> keywords) {
+        this.keywords = keywords;
+    }
+
+    
 }
