@@ -1,6 +1,8 @@
 package com.example.movie_service.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -84,6 +86,7 @@ public class Image {
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
+    @JsonIgnore
     private Movie movie;
 
     public Movie getMovie() {

@@ -24,6 +24,14 @@ public class Movie {
     @Column(name="id")
     private Long id;
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Column(name="name")
     private String name;
 
@@ -226,5 +234,5 @@ public class Movie {
         this.keywords = keywords;
     }
 
-    
+
 }

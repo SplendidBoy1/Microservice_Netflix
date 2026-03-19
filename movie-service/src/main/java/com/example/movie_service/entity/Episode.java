@@ -1,6 +1,8 @@
 package com.example.movie_service.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -73,6 +75,7 @@ public class Episode {
 
     @ManyToOne
     @JoinColumn(name = "server_id")
+    @JsonIgnore
     private EpisodeServer episodeServer;
 
     public EpisodeServer getEpisodeServer() {

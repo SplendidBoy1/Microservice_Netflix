@@ -2,6 +2,7 @@ package com.example.movie_service.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,6 +41,7 @@ public class Keyword {
     }
 
     @ManyToMany(mappedBy = "keywords")
+    @JsonIgnore
     private List<Movie> movie;
 
     public List<Movie> getMovie() {

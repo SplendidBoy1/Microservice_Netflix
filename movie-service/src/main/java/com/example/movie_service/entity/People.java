@@ -1,7 +1,12 @@
 package com.example.movie_service.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -66,6 +71,19 @@ public class People {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+    @ManyToMany(mappedBy = "peoples")
+    @JsonIgnore
+    private List<Movie> movies;
+
+    public List<Movie> getMovies() {
+        return this.movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
 
     public People (){
 

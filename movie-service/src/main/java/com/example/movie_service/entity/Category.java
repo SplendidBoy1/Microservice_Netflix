@@ -10,6 +10,8 @@ import jakarta.persistence.ManyToMany;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "categories")
 public class Category {
@@ -50,6 +52,7 @@ public class Category {
     }
 
     @ManyToMany(mappedBy = "categories")
+    @JsonIgnore
     private List<Movie> movies;
 
     public List<Movie> getMovies() {
