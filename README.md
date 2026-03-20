@@ -23,29 +23,31 @@ Phân vùng và đặc quyền của từng loại tài khoản
 
 # Danh sách API
 1. Auth service:
-- POST /auth/register
-- POST /auth/login
+- POST /auth/register ⏳
+- POST /auth/login ✅
 2. Movie service:
-- GET /movies
-- GET /movies/{id}
-- POST /movies
-- DELETE /movies/{id}
-3. User service
-- GET /users/me
-- PUT /users/me
-- POST /users/me/favorites
-- GET /users/me/favorites
-- GET /admin/users (có thể thêm query param)
-- GET /admin/users/{id}
-- PUT /admin/users/{id}
-- PATCH /admin/users/{id}/enable
-- DELETE /admin/users/{id}
-# Phân quyền API
-Sử dụng Spring Security
-\
-| Endpoint            | Role  |\
-| ------------------- | ----- |\
-| /users/me           | USER  |\
-| /users/me/favorites | USER  |\
-| /admin/users        | ADMIN |\
+- GET /api/movies (có thể thêm param page để phân trang) ✅
+- GET /api/movies/{slug} với slug là tên slug của phim ✅
+- GET /api/movies/search với param là keyword để tìm kiếm và param page để phân trang ✅
+- POST /movies ⏳
+- DELETE /movies/{id} ⏳
+3. User service 
+- GET /users/me ⏳
+- PUT /users/me ⏳
+- POST /users/me/favorites ⏳
+- GET /users/me/favorites ⏳
+- GET /admin/users (có thể thêm query param) ⏳
+- GET /admin/users/{id} ⏳
+- PUT /admin/users/{id} ⏳
+- PATCH /admin/users/{id}/enable ⏳
+- DELETE /admin/users/{id} ⏳
+# Phân quyền API ⏳
+# Mối quan hệ giữa các bảng trong database
+
+1. auth_db <br />
+<p style="text-align: center;"> <img src="./documents/pictures/auth_db.png" /></p>
+
+
+2. movie_db <br />
+<p style="text-align: center;"> <img src="./documents/pictures/movie_db.png" /></p>
 
