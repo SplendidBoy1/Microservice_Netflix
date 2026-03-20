@@ -39,7 +39,7 @@ public class UserController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         // String username = request.getUsername();
         // String password = request.getPassword();
-        UserDetails userDetail = userService.loadUserByUsername(request.getUsername());
+        UserDetails userDetail = (UserDetails) authentication.getPrincipal();
         String token = jwtService.generateToken(userDetail);
         return new LoginResponse(token);
     }

@@ -10,6 +10,8 @@ import jakarta.persistence.ManyToMany;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "countries")
 public class Country {
@@ -49,6 +51,7 @@ public class Country {
     }
 
     @ManyToMany(mappedBy = "countries")
+    @JsonIgnore
     private List<Movie> movies;
 
     public List<Movie> getMovies() {

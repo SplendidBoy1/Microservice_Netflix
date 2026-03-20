@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.movie_service.entity.Category;
-import com.example.movie_service.entity.Movie;
 import com.example.movie_service.repository.CategoryRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -41,5 +40,9 @@ public class CategoryService {
         return categories;
     }
 
+    @Transactional
+    public void deleteAll(){
+        categoryRepository.deleteAllInBatch();
+    }
 
 }

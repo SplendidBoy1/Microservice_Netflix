@@ -1,8 +1,9 @@
 package com.example.auth_service.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -33,10 +34,14 @@ public class UserService implements UserDetailsService{
                 .findByUsername(username)
                 .orElseThrow();
 
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+    .map(role -> (GrantedAuthority) new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+    .toList();
+
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                new ArrayList<>()
+                authorities
         );
     }
 

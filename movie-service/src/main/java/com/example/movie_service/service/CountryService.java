@@ -6,10 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.movie_service.entity.Category;
+
 import com.example.movie_service.entity.Country;
-import com.example.movie_service.entity.Movie;
-import com.example.movie_service.repository.CategoryRepository;
+
 import com.example.movie_service.repository.CountryRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -44,5 +43,8 @@ public class CountryService {
         return countries;
     }
 
+    public void deleteAll(){
+        countryRepository.deleteAllInBatch();
+    }
 
 }
