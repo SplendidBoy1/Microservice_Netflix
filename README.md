@@ -43,9 +43,11 @@ Phân vùng và đặc quyền của từng loại tài khoản
 - DELETE /admin/users/{id} ⏳
 # Phân quyền API ⏳
 # Mối quan hệ giữa các bảng trong database
-1. auth_db
-    ![image info](./documents/pictures/auth_db.png)
 
-2. movie_db
-    ![image info](./documents/pictures/movie_db.png)
+1. auth_db <br />
+<p style="text-align: center;"> <img src="./documents/pictures/auth_db.png" /></p>
+
+
+2. movie_db <br />
+<p style="text-align: center;"> <img src="./documents/pictures/movie_db.png" /></p>
 
