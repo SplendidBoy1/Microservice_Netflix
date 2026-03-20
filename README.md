@@ -21,7 +21,10 @@ Phân vùng và đặc quyền của từng loại tài khoản
 - Thay đổi cấp quyền cho tài khoản
 - Xóa tài khoản
 
-# Danh sách API
+# Mapping Network
+<p style="text-align: center;"> <img src="./documents/pictures/port_service.png" /></p>
+
+# Danh sách API <br />
 1. Auth service:
 - POST /auth/register ⏳
 - POST /auth/login ✅
