@@ -26,7 +26,7 @@ Phân vùng và đặc quyền của từng loại tài khoản
 
 # Danh sách API <br />
 1. Auth service:
-- POST /auth/register ⏳
+- POST /auth/register ✅
 - POST /auth/login ✅
 2. Movie service:
 - GET /api/movies (có thể thêm param page để phân trang) ✅
