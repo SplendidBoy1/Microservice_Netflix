@@ -1,5 +1,30 @@
 
 services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image:  confluentinc/cp-kafka:7.0.1
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
   service-registry:
     build: ./service-registry
     container_name: service-registry
@@ -47,12 +72,25 @@ services:
         condition: service_healthy
       mysql:
         condition: service_healthy
+      kafka:
+        condition: service_started
 
   movie-service:
     build: ./movie-service
     container_name: movie-service
     ports:
       - "8084:8084"
+    depends_on:
+      service-registry:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8085:8085"
     depends_on:
       service-registry:
         condition: service_healthy

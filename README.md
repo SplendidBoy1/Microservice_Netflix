@@ -32,8 +32,8 @@ Phân vùng và đặc quyền của từng loại tài khoản
 - GET /api/movies (có thể thêm param page để phân trang) ✅
 - GET /api/movies/{slug} với slug là tên slug của phim ✅
 - GET /api/movies/search với param là keyword để tìm kiếm và param page để phân trang ✅
-- POST /movies ⏳
-- DELETE /movies/{id} ⏳
+- POST /api/movies ⏳
+- DELETE /api/movies/{id} ⏳
 3. User service 
 - GET /users/me ⏳
 - PUT /users/me ⏳
@@ -43,7 +43,7 @@ Phân vùng và đặc quyền của từng loại tài khoản
 - GET /admin/users/{id} ⏳
 - PUT /admin/users/{id} ⏳
 - PATCH /admin/users/{id}/enable ⏳
-- DELETE /admin/users/{id} ⏳
+- DELETE /api/users/{id} ✅
 # Phân quyền API ⏳
 # Mối quan hệ giữa các bảng trong database
 

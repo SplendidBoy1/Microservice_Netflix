@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.auth_service.dto.LoginRequest;
@@ -16,6 +17,9 @@ import com.example.auth_service.dto.RegisterRequest;
 import com.example.auth_service.entity.User;
 import com.example.auth_service.security.JwtService;
 import com.example.auth_service.service.AuthService;
+import com.example.auth_service.service.KafkaProducerService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +40,9 @@ public class UserController {
     @Autowired
     private JwtService jwtService;
 
+    // @Autowired
+    // private KafkaService kafkaService;
+
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
@@ -50,6 +57,12 @@ public class UserController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(authService.register(request));
     }
+
+    // @GetMapping("/send")
+    // public String send(@RequestParam String msg) {
+    //     kafkaService.sendMessage(msg);
+    //     return "Sent: " + msg;
+    // }
 
     // @GetMapping("/{name}")
     // public User getUser(@PathVariable String name){

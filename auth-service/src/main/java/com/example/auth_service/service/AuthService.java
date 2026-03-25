@@ -3,7 +3,6 @@ package com.example.auth_service.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,21 +10,32 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import com.example.auth_service.dto.EventCreatedUserKafka;
 import com.example.auth_service.dto.RegisterRequest;
 import com.example.auth_service.entity.Role;
 import com.example.auth_service.entity.User;
 import com.example.auth_service.repository.RoleRepository;
 import com.example.auth_service.repository.UserRepository;
 
+import org.springframework.context.ApplicationEventPublisher;
+import jakarta.transaction.Transactional;
+
+
 @Service
 public class AuthService implements UserDetailsService{
-    
+
     @Autowired
     private UserRepository userRepository;
 
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private KafkaProducerService kafkaService;
+
+    @Autowired
+    ApplicationEventPublisher applicationEventPublisher;
 
     public AuthService(UserRepository userRepository){
         this.userRepository = userRepository;
@@ -56,6 +66,8 @@ public class AuthService implements UserDetailsService{
         );
     }
 
+
+    @Transactional
     public String register(RegisterRequest request){
         if(userRepository.findByUsername(request.getUsername()).isPresent()){
             throw new RuntimeException("User already exist");
@@ -69,7 +81,20 @@ public class AuthService implements UserDetailsService{
         roles.add(roleRepository.findByRole("USER").get());
         new_user.setRoles(roles);
         userRepository.save(new_user);
+
+        applicationEventPublisher.publishEvent(new EventCreatedUserKafka(new_user.getId(), new_user.getUsername()));
+        
+        // kafkaService.sendMessage("create-user", new EventCreatedUserKafka(new_user.getId(), new_user.getUsername()));
         return "User registered successfully";
+    }
+
+    @Transactional
+    public void deleteAuthUser(Long id){
+
+        User user = userRepository.findById(id).get();
+
+        userRepository.delete(user);
+
     }
 
 }
