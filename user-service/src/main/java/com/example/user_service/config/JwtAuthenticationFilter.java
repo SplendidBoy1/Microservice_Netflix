@@ -1,4 +1,4 @@
-package com.example.api_gateway.config;
+package com.example.user_service.config;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +14,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.example.user_service.dto.CustomUserDetails;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -41,8 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         }
 
         String token = authHeader.substring(7);
-        System.out.println("QUANASDFNASDF");
-        System.out.println(token);
+        // System.out.println("QUANASDFNASDF");
+        // System.out.println(token);
 
         try {
             Claims claims = jwtUtil.validateToken(token);
@@ -50,6 +52,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             System.out.println(claims.get("roles"));
 
             String username = claims.getSubject();
+
+            Long userId = claims.get("userId", Long.class);
 
             List<Map<String, String>> roleMaps = claims.get("roles", List.class);
 
@@ -59,15 +63,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                 .map(SimpleGrantedAuthority::new)
                 .toList();
 
+            CustomUserDetails userDetails = new CustomUserDetails(userId, username, authorities);
+
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
-                            username,
+                            userDetails,
                             null,
                             authorities
                     );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;

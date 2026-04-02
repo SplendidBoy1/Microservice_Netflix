@@ -10,8 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import com.example.auth_service.dto.CustomUserDetails;
 import com.example.auth_service.dto.EventCreatedUserKafka;
 import com.example.auth_service.dto.RegisterRequest;
+import com.example.auth_service.dto.UpdateAuthorizationRequest;
 import com.example.auth_service.entity.Role;
 import com.example.auth_service.entity.User;
 import com.example.auth_service.repository.RoleRepository;
@@ -32,14 +34,7 @@ public class AuthService implements UserDetailsService{
     private RoleRepository roleRepository;
 
     @Autowired
-    private KafkaProducerService kafkaService;
-
-    @Autowired
     ApplicationEventPublisher applicationEventPublisher;
-
-    public AuthService(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
@@ -59,7 +54,8 @@ public class AuthService implements UserDetailsService{
     .map(role -> (GrantedAuthority) new SimpleGrantedAuthority("ROLE_" + role.getRole()))
     .toList();
 
-        return new org.springframework.security.core.userdetails.User(
+        return new CustomUserDetails(
+                user.getId(),
                 user.getUsername(),
                 user.getPassword(),
                 authorities
@@ -95,6 +91,20 @@ public class AuthService implements UserDetailsService{
 
         userRepository.delete(user);
 
+    }
+
+    @Transactional
+    public String updateAuthorization(Long id, UpdateAuthorizationRequest json){
+
+        User user = userRepository.findById(id).get();
+
+        List<Role> roles = roleRepository.findAllById(json.getRoleIds());
+
+        user.setEnabled(json.isEnabled());
+
+        user.setRoles(roles);
+
+        return "Update authorization successfully";
     }
 
 }

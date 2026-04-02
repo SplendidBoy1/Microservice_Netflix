@@ -28,21 +28,21 @@ Phân vùng và đặc quyền của từng loại tài khoản
 1. Auth service:
 - POST /auth/register ✅
 - POST /auth/login ✅
+- PATCH /auth//update_authorization/{id} ✅
 2. Movie service:
 - GET /api/movies (có thể thêm param page để phân trang) ✅
 - GET /api/movies/{slug} với slug là tên slug của phim ✅
 - GET /api/movies/search với param là keyword để tìm kiếm và param page để phân trang ✅
 - POST /api/movies ⏳
-- DELETE /api/movies/{id} ⏳
+- DELETE /api/movies/{id} ✅
 3. User service 
-- GET /users/me ⏳
-- PUT /users/me ⏳
-- POST /users/me/favorites ⏳
-- GET /users/me/favorites ⏳
+- GET /users/me ✅
+- PUT /users/me ✅
+- POST /users/me/favorites ✅
+- GET /users/me/favorites ✅
 - GET /admin/users (có thể thêm query param) ⏳
-- GET /admin/users/{id} ⏳
-- PUT /admin/users/{id} ⏳
-- PATCH /admin/users/{id}/enable ⏳
+- GET /api/users ✅
+- PUT /api/users ✅
 - DELETE /api/users/{id} ✅
 # Phân quyền API ⏳
 # Mối quan hệ giữa các bảng trong database

@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.auth_service.dto.CustomUserDetails;
 import com.example.auth_service.dto.LoginRequest;
 import com.example.auth_service.dto.LoginResponse;
 import com.example.auth_service.dto.RegisterRequest;
+import com.example.auth_service.dto.UpdateAuthorizationRequest;
 import com.example.auth_service.entity.User;
 import com.example.auth_service.security.JwtService;
 import com.example.auth_service.service.AuthService;
@@ -21,6 +23,7 @@ import com.example.auth_service.service.KafkaProducerService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +51,7 @@ public class UserController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         // String username = request.getUsername();
         // String password = request.getPassword();
-        UserDetails userDetail = (UserDetails) authentication.getPrincipal();
+        CustomUserDetails userDetail = (CustomUserDetails) authentication.getPrincipal();
         String token = jwtService.generateToken(userDetail);
         return new LoginResponse(token);
     }
@@ -56,6 +59,12 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(authService.register(request));
+    }
+
+    @PatchMapping("/update_authorization/{id}")
+    public ResponseEntity<?> updateAuthorization(@RequestBody UpdateAuthorizationRequest request, @PathVariable("id") Long id ){
+
+        return ResponseEntity.ok(authService.updateAuthorization(id, request));
     }
 
     // @GetMapping("/send")

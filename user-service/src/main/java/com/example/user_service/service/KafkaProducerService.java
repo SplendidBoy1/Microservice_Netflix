@@ -20,4 +20,6 @@ public class KafkaProducerService {
         kafkaTemplate.send("delete-user", message);
     }
 
+    
+
 }

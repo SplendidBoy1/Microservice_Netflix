@@ -6,6 +6,8 @@ import java.util.Date;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.example.auth_service.dto.CustomUserDetails;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -18,8 +20,8 @@ public class JwtService {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public String generateToken(UserDetails userDetails){
-        String jwt = Jwts.builder().setSubject(userDetails.getUsername()).claim("roles", userDetails.getAuthorities()).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 86400000)).signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+    public String generateToken(CustomUserDetails userDetails){
+        String jwt = Jwts.builder().setSubject(userDetails.getUsername()).claim("roles", userDetails.getAuthorities()).claim("userId", userDetails.getId()).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 86400000)).signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
         return jwt;
     }
 }
